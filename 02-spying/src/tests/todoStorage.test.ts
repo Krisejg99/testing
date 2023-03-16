@@ -31,6 +31,10 @@ describe('saveTodos', () => {
 	})
 
 	it('can save a todo and then get it', () => {
+		const result = saveTodos([ TODO ])
+		expect(result.success).toBe(true)
 
+		const todos = getTodos()
+		expect(todos).toContainEqual(TODO)
 	})
 })
