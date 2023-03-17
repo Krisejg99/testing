@@ -1,12 +1,17 @@
 /**
  * todoStorage tests
  */
-import mockLocalStorage from '../mocks/mockedLocalStorage'
-import { afterEach, describe, expect, it } from 'vitest'
+
+/**
+ * @vitest-environment happy-dom
+ */
+
+// import mockLocalStorage from '../mocks/mockedLocalStorage'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { getTodos, saveTodos } from '../utils/todoStorage'
 import { Todo } from '../types/Todo'
 
-global.localStorage = mockLocalStorage()
+// global.localStorage = mockLocalStorage()
 
 const TODO: Todo = {
 	id: 1,
@@ -15,9 +20,12 @@ const TODO: Todo = {
 }
 
 describe('getTodos', () => {
-	it('retirns empty list of todos', () => {
+	it('returns empty list of todos', () => {
+
+		const getItemSpy = vi.spyOn(global.localStorage, 'getItem')
 		const todos = getTodos()
 
+		expect(getItemSpy).toHaveBeenCalledOnce()
 		expect(todos.length).toBe(0)
 	})
 })
@@ -26,7 +34,10 @@ describe('saveTodos', () => {
 	afterEach(() => global.localStorage.clear())
 
 	it('can save a todo', () => {
+		const getItemSpy = vi.spyOn(global.localStorage, 'setItem')
 		const result = saveTodos([ TODO ])
+
+		expect(getItemSpy).toHaveBeenCalledOnce()
 		expect(result.success).toBe(true)
 	})
 
