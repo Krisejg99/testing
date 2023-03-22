@@ -35,24 +35,22 @@ export const del = async (endpoint: string) => {
 	return res.data
 }
 
-
 /**
  * Get all todos
  */
-export const getTodos = async () => {
+export const getTodos = () => {
 	return get<Todo[]>(`/todos`)
 }
 
 /**
  * Get a single todo
  */
-
 export const getTodo = (id: number) => {
 	return get<Todo>(`/todos/${id}`)
 }
 
 /**
- * Create a new todo
+ * Create a todo
  */
 export const createTodo = (todo: CreateTodoData) => {
 	return post<Todo>(`/todos`, todo)
