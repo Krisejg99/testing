@@ -1,7 +1,7 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { server } from '../mocks/server'
 import * as TodoAPI from '../services/TodoAPI'
-import { CreateTodoData } from '../types/Todo'
+import { TodoData } from '../types/Todo'
 
 // Establish API mocking before all tests.
 beforeAll(() => server.listen())
@@ -10,7 +10,7 @@ afterEach(() => server.resetHandlers())
 // Clean up after the tests are finished.
 afterAll(() => server.close())
 
-const newTodo: CreateTodoData = {
+const newTodo: TodoData = {
 	title: 'Eat',
 	completed: false,
 }
@@ -32,12 +32,12 @@ describe('TodoAPI', () => {
 		})
 	})
 
-	// it('should create and then get the todo', async () => {
-	// 	const createdTodo = await TodoAPI.createTodo(newTodo)
-	// 	const todo = await TodoAPI.getTodo(createdTodo.id)
+	it('should create and then get the todo', async () => {
+		const createdTodo = await TodoAPI.createTodo(newTodo)
+		const todo = await TodoAPI.getTodo(createdTodo.id)
 
-	// 	expect(todo).toStrictEqual(createdTodo)
-	// })
+		expect(todo).toStrictEqual(createdTodo)
+	})
 
 	// it('should create and then find the todo among all todos', async () => {
 	// 	const todo = await TodoAPI.createTodo(newTodo)

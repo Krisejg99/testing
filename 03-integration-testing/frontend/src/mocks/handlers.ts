@@ -1,5 +1,5 @@
 import { rest } from 'msw'
-import { Todo } from '../types/Todo'
+import { Todo, TodoData } from '../types/Todo'
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -16,12 +16,24 @@ export const handlers = [
 		)
 	}),
 
-	rest.get(`${BASE_URL}/todos/:todoId`, () => {
+	rest.get(`${BASE_URL}/todos/:todoId`, (req, res, ctx) => {
+		const todoId = Number(req.params.todoId)
+		const todo = dummyTodos.find(todo => todo.id === todoId)
+		if (!todo) {
+			return res(
+				ctx.status(404),
+				ctx.json({})
+			)
+		}
 
+		return res(
+			ctx.status(200),
+			ctx.json(todo)
+		)
 	}),
 
 	rest.post(`${BASE_URL}/todos`, async (req, res, ctx) => {
-		const payload = await req.json()
+		const payload = await req.json<TodoData>()
 		const id = Math.max(0, ...dummyTodos.map(todo => todo.id)) + 1
 		const todo: Todo = {
 			id,

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Todo, CreateTodoData, UpdateTodoData } from '../types/Todo'
+import { Todo, TodoData, UpdateTodoData } from '../types/Todo'
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -52,7 +52,7 @@ export const getTodo = (id: number) => {
 /**
  * Create a todo
  */
-export const createTodo = (todo: CreateTodoData) => {
+export const createTodo = (todo: TodoData) => {
 	return post<Todo>(`/todos`, todo)
 }
 
