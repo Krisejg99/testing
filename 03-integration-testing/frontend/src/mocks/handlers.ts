@@ -49,11 +49,42 @@ export const handlers = [
 		)
 	}),
 
-	rest.patch(`${BASE_URL}/todos/:todoId`, () => {
+	rest.patch(`${BASE_URL}/todos/:todoId`, async (req, res, ctx) => {
+		const payload = await req.json<Partial<TodoData>>()
 
+		const todoId = Number(req.params.todoId)
+		const todo = dummyTodos.find(todo => todo.id === todoId)
+		if (!todo) {
+			return res(
+				ctx.status(404),
+				ctx.json({})
+			)
+		}
+
+		todo.title = payload.title ?? todo.title
+		todo.completed = payload.completed ?? todo.completed
+
+		return res(
+			ctx.status(200),
+			ctx.json(todo)
+		)
 	}),
 
-	rest.delete(`${BASE_URL}/todos/:todoId`, () => {
+	rest.delete(`${BASE_URL}/todos/:todoId`, (req, res, ctx) => {
+		const todoId = Number(req.params.todoId)
+		const todo = dummyTodos.find(todo => todo.id === todoId)
+		if (!todo) {
+			return res(
+				ctx.status(404),
+				ctx.json({})
+			)
+		}
 
+		dummyTodos.splice(dummyTodos.indexOf(todo), 1)
+
+		return res(
+			ctx.status(200),
+			ctx.json({})
+		)
 	}),
 ]

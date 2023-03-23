@@ -6,8 +6,3 @@ export type TodoData = {
 export type Todo = TodoData & {
 	id: number,
 }
-
-export type UpdateTodoData = {
-	title?: string,
-	completed?: boolean,
-}
