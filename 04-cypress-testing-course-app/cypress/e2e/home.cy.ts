@@ -1,6 +1,6 @@
 describe('Home page', () => {
 	beforeEach(() => {
-		cy.visit('http://localhost:3000')
+		cy.visit('/')
 	})
 
 	context('Hero section', () => {
@@ -26,7 +26,7 @@ describe('Home page', () => {
 	})
 
 	context('Course section', () => {
-		it.only('can navigate to the first course page', () => {
+		it('can navigate to the first course page', () => {
 			cy.getByDataTest('course-0')
 				.find('a')
 				.eq(-1)
