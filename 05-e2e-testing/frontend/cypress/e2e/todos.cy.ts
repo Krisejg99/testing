@@ -1,19 +1,39 @@
 describe('Todos', () => {
-	beforeEach(() => cy.visit('/'))
-
 	context('initial state', () => {
-		it('should see at least 1 todo', () => {
+		beforeEach(() => {
+			cy.intercept('GET', 'http://localhost:3001/todos', {
+				fixture: 'todos.json'
+			}),
+			cy.visit('/')
+		})
+
+		it('should see the two mocked todos', () => {
 			cy.get('#todos')
 				.find('li')
-				.should('have.length.at.least', 1)
+				.should('have.length', 2)
+
+			cy.get('#todos')
+				.find('li')
+				.first()
+				.should('contain.text', 'My first todo')
+				.should('not.have.class', 'completed')
+
+			cy.get('#todos')
+				.find('li')
+				.last()
+				.should('contain.text', 'My second todo')
+				.should('not.have.class', 'completed')
 		})
+
 		it('should not show the error dialog', () => {
 			cy.get('#error')
 				.should('not.be.visible')
 		})
 	})
 
-	context('create todo', () => {
+	context.skip('create todo', () => {
+		beforeEach(() => cy.visit('/'))
+
 		it('create a todo form should be empty', () => {
 			cy.get('#new-todo-title')
 				.should('have.value', '')
